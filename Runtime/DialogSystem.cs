@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogSystem : MonoBehaviour
 {
@@ -15,8 +16,10 @@ public class DialogSystem : MonoBehaviour
     private static DialogFile dialog;
 
     public GameObject onscreenUI;
+    public GameObject portraitContainer;
+    public Image portraitImage;
 
-    private TMPro.TextMeshProUGUI txtmesh;
+    private Text txtmesh;
     public static DialogSystem ins;
     //is there a dialog currently running?
     public static bool activeDialog = false;
@@ -40,7 +43,8 @@ public class DialogSystem : MonoBehaviour
         if (!dialogFile) { Debug.LogError("Dialog System-Need a dialog file!"); }
         XElement dialogDoc = XDocument.Parse(dialogFile.text).Element("DialogFile");
         dialog = new DialogFile(dialogDoc, "");
-        txtmesh = onscreenUI.GetComponent<TMPro.TextMeshProUGUI>();
+        //NOTE: Textmeshpro does not handle bitmap fonts well. Thats why we use a UnityUI Text component
+        txtmesh = onscreenUI.GetComponent<Text>();
     }
 
     public static void DialogEvent(string id)
@@ -56,7 +60,13 @@ public class DialogSystem : MonoBehaviour
     IEnumerator TypeDialog(DialogEvent ev)
     {
         DialogSystem.activeDialog = true;
-        for(int i = 0; i< ev.dialogPages.Length;i++)
+
+        Sprite img = Resources.Load<Sprite>(dialog.portraitFolder + "/" + ev.portrait);
+        if (!img) { Debug.LogError("Dialog System- cant load image: " + dialog.portraitFolder + "/" + ev.portrait); }
+        portraitImage.sprite = img;
+        portraitContainer.SetActive(true);
+
+        for (int i = 0; i< ev.dialogPages.Length;i++)
         {
             txtmesh.text = "";
             string text = ev.dialogPages[i];
@@ -72,6 +82,7 @@ public class DialogSystem : MonoBehaviour
         yield return new WaitForSeconds(delayBetweenFadeout);
         txtmesh.text = "";
         DialogSystem.activeDialog = false ;
+        portraitContainer.SetActive(false);
         yield break;
     }
 

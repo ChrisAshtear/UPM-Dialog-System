@@ -1,7 +1,7 @@
 {
   "name": "com.chrisash.dialog",
   "displayName": "Chris Ashtear - Dialog System",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "2020.3",
   "description": "Dialog System that doesnt interrupt gameplay",
   "keywords": [
@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "version": "auto-changelog -p && git add CHANGELOG.md",
-    "postversion": "git push && npm publish --registry https://repo.sargassosailor.com:4873"
+    "postversion": "git push"
   },
   "repository": {
     "type": "git",

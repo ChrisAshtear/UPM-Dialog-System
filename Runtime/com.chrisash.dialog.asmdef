@@ -2,7 +2,6 @@
     "name": "com.chrisash.dialog",
     "rootNamespace": "",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
         "GUID:ef09b9d6552c8d7419cff3dd52b9edb3"
     ],
     "includePlatforms": [],

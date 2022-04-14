@@ -39,7 +39,7 @@ public struct DialogFile
         path = assetPath;
         unityPath = assetPath.Replace('\\', '/');
         webglPath = (string)element.Attribute("webglpath");
-        portraitFolder = (string)element.Attribute("portraitfolder");
+        portraitFolder = (string)element.Attribute("portraitFolder");
         // Elements
         events = element
             .Elements("dialogList")
