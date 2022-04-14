@@ -1,0 +1,19 @@
+{
+  "name": "com.chrisash.dialog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChrisAshtear/UPM-Dialog-System.git"
+  },
+  "author": "ChrisAshtear",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChrisAshtear/UPM-Dialog-System/issues"
+  },
+  "homepage": "https://github.com/ChrisAshtear/UPM-Dialog-System#readme"
+}
