@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class DialogSystem : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class DialogSystem : MonoBehaviour
     public static DialogSystem ins;
     //is there a dialog currently running?
     public static bool activeDialog = false;
+    private Dictionary<string, Sprite> portraitList;
 
     private void Awake()
     {
@@ -45,6 +47,10 @@ public class DialogSystem : MonoBehaviour
         dialog = new DialogFile(dialogDoc, "");
         //NOTE: Textmeshpro does not handle bitmap fonts well. Thats why we use a UnityUI Text component
         txtmesh = onscreenUI.GetComponent<Text>();
+
+        Sprite[] sprites = Resources.LoadAll<Sprite>(dialog.portraitFolder + "/");
+        if(sprites.Length < 1) { Debug.LogError("Dialog System- cant load images: " + dialog.portraitFolder + "/. Does the folder have images imported as sprites?");  }
+        portraitList = sprites.ToDictionary(x => x.name, x => x);
     }
 
     public static void DialogEvent(string id)
@@ -57,19 +63,31 @@ public class DialogSystem : MonoBehaviour
         }
     }
 
+    private void setPortrait(string name)
+    {
+        bool found = portraitList.TryGetValue(name, out Sprite img);
+        if (!found) { Debug.LogError("Dialog System- cant find image: " + dialog.portraitFolder + "/. Does the folder have images imported as sprites?"); return; }
+        portraitImage.sprite = img;
+        portraitContainer.SetActive(true);
+    }
+
     IEnumerator TypeDialog(DialogEvent ev)
     {
         DialogSystem.activeDialog = true;
 
-        Sprite img = Resources.Load<Sprite>(dialog.portraitFolder + "/" + ev.portrait);
-        if (!img) { Debug.LogError("Dialog System- cant load image: " + dialog.portraitFolder + "/" + ev.portrait); }
-        portraitImage.sprite = img;
-        portraitContainer.SetActive(true);
+        setPortrait(ev.portrait);
 
         for (int i = 0; i< ev.dialogPages.Length;i++)
         {
             txtmesh.text = "";
             string text = ev.dialogPages[i];
+            string[] newPortrCheck = text.Split('>');
+            if(newPortrCheck.Length > 1) 
+            {
+                text = newPortrCheck[1];
+                setPortrait(newPortrCheck[0].Trim('<'));
+            }
+            
             foreach (char c in text)
             {
                 txtmesh.text += c;

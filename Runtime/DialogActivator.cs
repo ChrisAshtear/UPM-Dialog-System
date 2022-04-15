@@ -8,6 +8,7 @@ public class DialogActivator : MonoBehaviour
     public bool triggerOnce = true;
     public bool destroyObj = true;
 
+    public string triggeredOnlyByTag = "Player";
     //a version with & without object props - ifdef?
     //has to be in assembly definition to use it here.
     private ObjectProps props;
@@ -25,7 +26,10 @@ public class DialogActivator : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        startEvent();
+        if(other.CompareTag(triggeredOnlyByTag))
+        {
+            startEvent();
+        }
     }
 
     private void startEvent()
@@ -43,6 +47,9 @@ public class DialogActivator : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        startEvent();
+        if (collision.CompareTag(triggeredOnlyByTag))
+        {
+            startEvent();
+        }
     }
 }
