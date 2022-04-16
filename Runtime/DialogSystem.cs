@@ -53,9 +53,10 @@ public class DialogSystem : MonoBehaviour
         portraitList = sprites.ToDictionary(x => x.name, x => x);
     }
 
-    public static void DialogEvent(string id)
+    public static void DialogEvent(string id, bool overrideExisting = false)//if override is true, cancels any current dialogs.
     {
         bool found = dialog.events.TryGetValue(id, out DialogEvent ev);
+        if (overrideExisting) { ins.StopCoroutine("TypeDialog"); activeDialog = false; }
         if (!found) { Debug.LogError("Dialog System- Event not found"); }
         else if(!activeDialog)
         {
