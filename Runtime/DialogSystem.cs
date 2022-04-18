@@ -57,7 +57,7 @@ public class DialogSystem : MonoBehaviour
     {
         bool found = dialog.events.TryGetValue(id, out DialogEvent ev);
         if (overrideExisting) { ins.StopCoroutine("TypeDialog"); activeDialog = false; }
-        if (!found) { Debug.LogError("Dialog System- Event not found"); }
+        if (!found) { Debug.LogError("Dialog System- Event not found:" + id); }
         else if(!activeDialog)
         {
             ins.StartCoroutine("TypeDialog", ev);
