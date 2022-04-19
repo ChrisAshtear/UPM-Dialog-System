@@ -25,6 +25,7 @@ public class DialogSystem : MonoBehaviour
     //is there a dialog currently running?
     public static bool activeDialog = false;
     private Dictionary<string, Sprite> portraitList;
+    private static Callback completeCallback;
 
     private void Awake()
     {
@@ -53,13 +54,14 @@ public class DialogSystem : MonoBehaviour
         portraitList = sprites.ToDictionary(x => x.name, x => x);
     }
 
-    public static void DialogEvent(string id, bool overrideExisting = false)//if override is true, cancels any current dialogs.
+    public static void DialogEvent(string id, bool overrideExisting = false, Callback callback=null)//if override is true, cancels any current dialogs.
     {
         bool found = dialog.events.TryGetValue(id, out DialogEvent ev);
         if (overrideExisting) { ins.StopCoroutine("TypeDialog"); activeDialog = false; }
         if (!found) { Debug.LogError("Dialog System- Event not found:" + id); }
         else if(!activeDialog)
         {
+            if(callback!= null) { completeCallback = callback; }
             ins.StartCoroutine("TypeDialog", ev);
         }
     }
@@ -102,6 +104,7 @@ public class DialogSystem : MonoBehaviour
         txtmesh.text = "";
         DialogSystem.activeDialog = false ;
         portraitContainer.SetActive(false);
+        if (completeCallback != null) { completeCallback.Invoke(""); }
         yield break;
     }
 
