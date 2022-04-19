@@ -1,7 +1,7 @@
 {
   "name": "com.chrisash.dialog",
   "displayName": "Chris Ashtear - Dialog System",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "unity": "2020.3",
   "description": "Dialog System that doesnt interrupt gameplay",
   "keywords": [
