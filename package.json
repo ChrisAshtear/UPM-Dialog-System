@@ -1,7 +1,7 @@
 {
   "name": "com.chrisash.dialog",
   "displayName": "Chris Ashtear - Dialog System",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "unity": "2020.3",
   "description": "Dialog System that doesnt interrupt gameplay",
   "keywords": [
@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/ChrisAshtear/UPM-Dialog-System.git"
   },
-  "documentationUrl" : "https://repo.sargassosailor.com/-/web/detail/com.chrisash.dialog",
+  "documentationUrl": "https://repo.sargassosailor.com/-/web/detail/com.chrisash.dialog",
   "author": "Chris Ashtear",
   "bugs": {
     "url": "https://github.com/ChrisAshtear/UPM-Dialog-System/issues"
