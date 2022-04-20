@@ -66,7 +66,10 @@ public class CutsceneSystem : MonoBehaviour
 
     public static void AddEventHandler(string eventName,EventProcessor handler)
     {
-        ins.eventProcessors.Add(eventName, handler);
+        if (!ins.eventProcessors.ContainsKey(eventName))
+        {
+            ins.eventProcessors.Add(eventName, handler);
+        }//
     }
 
     public void Ev_Dialog(string dialogID)
