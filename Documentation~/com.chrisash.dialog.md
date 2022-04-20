@@ -1,22 +1,22 @@
-#Dialog & Cutscene system
+# Dialog & Cutscene system
 
-##Cutscenes
+## Cutscenes
 cutscene is used by putting a cutscene system component in the UI. You point it to an xml file configured as such:
 
 	<scenesFile name="" description="" author="" webglpath="" bgFolder="BG">
-<sceneList>
-<scene id="cs1">
- <sceneEvent id="" eventCode="runDialog" eventParameters="artifact1"/>
- <sceneEvent id="" eventCode="runDialog" eventParameters="death"/>
- <sceneEvent id="" eventCode="changeBG" eventParameters="backgroundForest"/>
- <sceneEvent id="" eventCode="playSound" eventParameters="MMXitemGet"/>
- <sceneEvent id="" eventCode="changeMusic" eventParameters="poppy"/>
- <sceneEvent id="" eventCode="runDialog" eventParameters="mines2"/>
- </scene>
- </sceneList>
- </scenesFile>
+	<sceneList>
+	<scene id="cs1">
+ 	<sceneEvent id="" eventCode="runDialog" eventParameters="artifact1"/>
+ 	<sceneEvent id="" eventCode="runDialog" eventParameters="death"/>
+ 	<sceneEvent id="" eventCode="changeBG" eventParameters="backgroundForest"/>
+ 	<sceneEvent id="" eventCode="playSound" eventParameters="MMXitemGet"/>
+ 	<sceneEvent id="" eventCode="changeMusic" eventParameters="poppy"/>
+ 	<sceneEvent id="" eventCode="runDialog" eventParameters="mines2"/>
+ 	</scene>
+ 	</sceneList>
+ 	</scenesFile>
  
- ###Cutscene Event codes
+ ### Cutscene Event codes
  
 The following codes are supported:
 
