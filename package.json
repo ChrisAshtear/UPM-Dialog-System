@@ -19,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/ChrisAshtear/UPM-Dialog-System.git"
   },
-  "documentationUrl" : "https://repo.sargassosailor.com/-/web/detail/com.chrisash.dialog"
+  "documentationUrl" : "https://repo.sargassosailor.com/-/web/detail/com.chrisash.dialog",
   "author": "Chris Ashtear",
   "bugs": {
     "url": "https://github.com/ChrisAshtear/UPM-Dialog-System/issues"
