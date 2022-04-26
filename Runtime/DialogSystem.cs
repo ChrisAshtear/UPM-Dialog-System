@@ -54,6 +54,13 @@ public class DialogSystem : MonoBehaviour
         portraitList = sprites.ToDictionary(x => x.name, x => x);
     }
 
+    public void ResetSystem()
+    {
+        txtmesh.text = "";
+        StopAllCoroutines();
+        activeDialog = false;
+    }
+
     public static void DialogEvent(string id, bool overrideExisting = false, Callback callback=null)//if override is true, cancels any current dialogs.
     {
         bool found = dialog.events.TryGetValue(id, out DialogEvent ev);
