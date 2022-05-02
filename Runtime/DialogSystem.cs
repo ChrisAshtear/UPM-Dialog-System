@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Audio;
 
 public class DialogSystem : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class DialogSystem : MonoBehaviour
     private static Callback completeCallback;
 
     public AudioClip dialogSound;
+    public AudioMixerGroup mixer;
     private AudioSource sfx;
 
     private void Awake()
@@ -35,6 +37,7 @@ public class DialogSystem : MonoBehaviour
         sfx = gameObject.AddComponent<AudioSource>();
         sfx.loop = false;
         sfx.playOnAwake = false;
+        sfx.outputAudioMixerGroup = mixer;
 
         if (DialogSystem.ins != null)
         {
