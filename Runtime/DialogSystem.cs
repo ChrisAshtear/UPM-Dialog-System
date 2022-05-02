@@ -27,8 +27,15 @@ public class DialogSystem : MonoBehaviour
     private Dictionary<string, Sprite> portraitList;
     private static Callback completeCallback;
 
+    public AudioClip dialogSound;
+    private AudioSource sfx;
+
     private void Awake()
     {
+        sfx = gameObject.AddComponent<AudioSource>();
+        sfx.loop = false;
+        sfx.playOnAwake = false;
+
         if (DialogSystem.ins != null)
         {
             Destroy(DialogSystem.ins);
@@ -64,6 +71,7 @@ public class DialogSystem : MonoBehaviour
     public static void DialogEvent(string id, bool overrideExisting = false, Callback callback=null)//if override is true, cancels any current dialogs.
     {
         bool found = dialog.events.TryGetValue(id, out DialogEvent ev);
+        ins.sfx.PlayOneShot(ins.dialogSound);
         if (overrideExisting) { ins.StopCoroutine("TypeDialog"); activeDialog = false; }
         if (!found) { Debug.LogError("Dialog System- Event not found:" + id); }
         else if(!activeDialog)
