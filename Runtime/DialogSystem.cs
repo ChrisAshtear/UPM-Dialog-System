@@ -108,7 +108,7 @@ public class DialogSystem : MonoBehaviour
                 text = newPortrCheck[1];
                 setPortrait(newPortrCheck[0].Trim('<'));
             }
-            
+            //TODO: add option for WaitForSecondsRealtime if dialog/cutscene needs a full game pause.
             foreach (char c in text)
             {
                 txtmesh.text += c;

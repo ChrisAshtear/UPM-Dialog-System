@@ -123,6 +123,7 @@ public class CutsceneSystem : MonoBehaviour
         {
             StartEvent(evnt.eventCode, evnt.eventArgs);
             //activeevent is used to signal for async event completion.
+			//TODO: add option for WaitForSecondsRealtime if dialog/cutscene needs a full game pause.
             while(activeevent)
             {
                 yield return new WaitForSeconds(0.1f);
