@@ -59,7 +59,7 @@ public class DialogSystem : MonoBehaviour
         XElement dialogDoc = XDocument.Parse(dialogFile.text).Element("DialogFile");
         dialog = new DialogFile(dialogDoc, "");
         //NOTE: Textmeshpro does not handle bitmap fonts well. Thats why we use a UnityUI Text component
-        txtmesh = onscreenUI.GetComponent<Text>();
+        txtmesh = onscreenUI.GetComponentInChildren<Text>();
 
         Sprite[] sprites = Resources.LoadAll<Sprite>(dialog.portraitFolder + "/");
         if(sprites.Length < 1) { Debug.LogError("Dialog System- cant load images: " + dialog.portraitFolder + "/. Does the folder have images imported as sprites?");  }
@@ -73,6 +73,12 @@ public class DialogSystem : MonoBehaviour
         activeDialog = false;
     }
 
+    public static bool EventExists(string id)
+    {
+        bool found = dialog.events.TryGetValue(id, out DialogEvent ev);
+        return found;
+    }
+
     public static void DialogEvent(string id, bool overrideExisting = false, Callback callback=null)//if override is true, cancels any current dialogs.
     {
         bool found = dialog.events.TryGetValue(id, out DialogEvent ev);
@@ -82,6 +88,7 @@ public class DialogSystem : MonoBehaviour
         else if(!activeDialog)
         {
             if(callback!= null) { completeCallback = callback; }
+            ins.onscreenUI.SetActive(true);
             ins.StartCoroutine("TypeDialog", ev);
         }
     }
@@ -98,7 +105,7 @@ public class DialogSystem : MonoBehaviour
     IEnumerator TypeDialog(DialogEvent ev)
     {
         DialogSystem.activeDialog = true;
-
+        
         setPortrait(ev.portrait);
         string fullText = "";
         for (int i = 0; i< ev.dialogPages.Length;i++)
@@ -127,7 +134,7 @@ public class DialogSystem : MonoBehaviour
         yield return new WaitForSeconds(delayBetweenFadeout);
         txtmesh.text = "";
         DialogSystem.activeDialog = false ;
-        if (!leaveDialogVisibleAfterComplete) {  portraitContainer.SetActive(false); }
+        if (!leaveDialogVisibleAfterComplete) {  portraitContainer.SetActive(false); onscreenUI.SetActive(false); }
         else { txtmesh.text = fullText; }
         if (completeCallback != null) { completeCallback.Invoke(""); }
         yield break;
