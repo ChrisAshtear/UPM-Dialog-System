@@ -15,6 +15,8 @@ public class DialogSystem : MonoBehaviour
     public float delayBetweenPages = 2f;
     public float delayBetweenLetters = 0.02f;
     public float delayBetweenFadeout = 2f;
+    public bool leaveDialogVisibleAfterComplete = false;
+    public bool showLastLineOnly = false;
     private static DialogFile dialog;
 
     public GameObject onscreenUI;
@@ -86,6 +88,7 @@ public class DialogSystem : MonoBehaviour
 
     private void setPortrait(string name)
     {
+        if(name == null) { return; }
         bool found = portraitList.TryGetValue(name, out Sprite img);
         if (!found) { Debug.LogError("Dialog System- cant find image: " + dialog.portraitFolder + "/. Does the folder have images imported as sprites?"); return; }
         portraitImage.sprite = img;
@@ -97,7 +100,7 @@ public class DialogSystem : MonoBehaviour
         DialogSystem.activeDialog = true;
 
         setPortrait(ev.portrait);
-
+        string fullText = "";
         for (int i = 0; i< ev.dialogPages.Length;i++)
         {
             txtmesh.text = "";
@@ -114,6 +117,9 @@ public class DialogSystem : MonoBehaviour
                 txtmesh.text += c;
                 yield return new WaitForSeconds(delayBetweenLetters);
             }
+            if (showLastLineOnly) { fullText = txtmesh.text; }
+            else { fullText += txtmesh.text + '\n'; }
+            
             yield return new WaitForSeconds(delayBetweenPages);
         }
 
@@ -121,7 +127,8 @@ public class DialogSystem : MonoBehaviour
         yield return new WaitForSeconds(delayBetweenFadeout);
         txtmesh.text = "";
         DialogSystem.activeDialog = false ;
-        portraitContainer.SetActive(false);
+        if (!leaveDialogVisibleAfterComplete) {  portraitContainer.SetActive(false); }
+        else { txtmesh.text = fullText; }
         if (completeCallback != null) { completeCallback.Invoke(""); }
         yield break;
     }
