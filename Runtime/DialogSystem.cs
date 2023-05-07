@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine.Audio;
 
 public delegate void SoundHook(char s);//char containing last letter printed for 'speaking'
+public delegate void ReadyEvent();
 
 public class DialogSystem : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class DialogSystem : MonoBehaviour
     private Dictionary<string, Sprite> portraitList;
     private static Callback completeCallback;
     public static SoundHook onCharacterType;
+    public static ReadyEvent onLoaded;
 
     public AudioClip dialogSound;
     public AudioMixerGroup mixer;
@@ -67,6 +69,7 @@ public class DialogSystem : MonoBehaviour
         Sprite[] sprites = Resources.LoadAll<Sprite>(dialog.portraitFolder + "/");
         if(sprites.Length < 1) { Debug.LogError("Dialog System- cant load images: " + dialog.portraitFolder + "/. Does the folder have images imported as sprites?");  }
         portraitList = sprites.ToDictionary(x => x.name, x => x);
+        if(onLoaded != null) { onLoaded.Invoke(); }
     }
 
     public void ResetSystem()
