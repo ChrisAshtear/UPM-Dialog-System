@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Audio;
 
+public delegate void SoundHook(char s);//char containing last letter printed for 'speaking'
+
 public class DialogSystem : MonoBehaviour
 {
     //if in pc, get path info from this file and then try to open in streaming asssets.
@@ -29,6 +31,7 @@ public class DialogSystem : MonoBehaviour
     public static bool activeDialog = false;
     private Dictionary<string, Sprite> portraitList;
     private static Callback completeCallback;
+    public static SoundHook onCharacterType;
 
     public AudioClip dialogSound;
     public AudioMixerGroup mixer;
@@ -122,6 +125,7 @@ public class DialogSystem : MonoBehaviour
             foreach (char c in text)
             {
                 txtmesh.text += c;
+                if(onCharacterType != null) { onCharacterType.Invoke(c); }
                 yield return new WaitForSeconds(delayBetweenLetters);
             }
             if (showLastLineOnly) { fullText = txtmesh.text; }
